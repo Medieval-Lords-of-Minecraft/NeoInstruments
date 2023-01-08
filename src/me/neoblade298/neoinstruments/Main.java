@@ -16,6 +16,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerEditBookEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemHeldEvent;
@@ -128,6 +129,7 @@ public class Main extends JavaPlugin implements Listener {
 				List<String> lore = e.getItem().getItemMeta().getLore();
 				
 				if (lore.get(0).contains("Instrument")) {
+					e.setCancelled(true);
 					lore.set(0, ChatColor.stripColor(lore.get(0)));
 					int tempSplit = lore.get(0).lastIndexOf(" ");
 					String temp = lore.get(0).substring(0, tempSplit);
@@ -158,6 +160,7 @@ public class Main extends JavaPlugin implements Listener {
 			// If playing instrument
 			else if (this.freePlaying.contains(e.getPlayer()) || bookPlaying.contains(e.getPlayer())) {
 				stopPlaying(e.getPlayer());
+				e.setCancelled(true);
 				e.getPlayer().sendMessage("§4[§c§lMLMC§4] §7You stopped playing your instrument!");
 			}
 		}
@@ -173,7 +176,8 @@ public class Main extends JavaPlugin implements Listener {
 			}
 		}
 	}
-
+	
+	
 	@EventHandler
 	public void changeSlotEvent(PlayerItemHeldEvent e) {
 		Player p = e.getPlayer();
